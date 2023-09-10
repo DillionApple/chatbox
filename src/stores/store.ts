@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next'
 export function getDefaultSettings(): Settings {
     return {
         openaiKey: '',
-        apiHost: 'https://api.openai.com',
-        model: 'gpt-3.5-turbo',
+        apiHost: 'https://api-openai-us1.deepseek.com:8443/',
+        model: 'gpt-35-turbo',
         temperature: 0.7,
         maxContextSize: '4000',
         maxTokens: '2048',
@@ -41,7 +41,6 @@ export async function writeSettings(settings: Settings) {
     if (!settings.apiHost) {
         settings.apiHost = getDefaultSettings().apiHost
     }
-    console.log('writeSettings.apiHost', settings.apiHost)
     return runtime.writeStore('settings', settings)
 }
 
@@ -86,32 +85,9 @@ export async function writeSessions(sessions: Session[]) {
 export default function useStore() {
     const { i18n } = useTranslation()
 
-    const [version, _setVersion] = useState('unknown')
+    const [version, _setVersion] = useState('1.0')
     const [needCheckUpdate, setNeedCheckUpdate] = useState(false)
     const updateCheckTimer = useRef<NodeJS.Timeout>()
-    useEffect(() => {
-        const handler = async () => {
-            const version = await runtime.getVersion()
-            _setVersion(version)
-            try {
-                const config = await readConfig()
-                const os = await runtime.getPlatform()
-                const needUpdate = await remote.checkNeedUpdate(version, os, config)
-                setNeedCheckUpdate(needUpdate)
-            } catch (e) {
-                console.log(e)
-                setNeedCheckUpdate(true)
-            }
-        }
-        handler()
-        updateCheckTimer.current = setInterval(handler, 10 * 60 * 1000)
-        return () => {
-            if (updateCheckTimer.current) {
-                clearInterval(updateCheckTimer.current)
-                updateCheckTimer.current = undefined
-            }
-        }
-    }, [])
 
     const [settings, _setSettings] = useState<Settings>(getDefaultSettings())
     const [needSetting, setNeedSetting] = useState(false)

@@ -37,6 +37,7 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices'
 import Save from '@mui/icons-material/Save'
 import CleanWidnow from './dialogs/CleanDialog'
 import AboutDialog from './dialogs/AboutDialog'
+import UsageDialog from './dialogs/UsageDialog'
 import { ThemeSwitcherProvider } from './theme/ThemeSwitcher'
 import { useTranslation } from 'react-i18next'
 import icon from './assets/icon.png'
@@ -106,6 +107,8 @@ function Main() {
 
     // 是否展示相关信息的窗口
     const [openAboutDialog, setOpenAboutDialog] = React.useState(false)
+
+    const [openUsageDialog, setUsageDialog] = React.useState(false)
 
     // 是否展示菜单栏
     const theme = useTheme()
@@ -482,7 +485,7 @@ function Main() {
                                     </Typography>
                                 </MenuItem>
 
-                                <MenuItem onClick={() => setOpenAboutDialog(true)}>
+                                <MenuItem onClick={() => setUsageDialog(true)}>
                                     <ListItemIcon>
                                         <IconButton>
                                             <InfoOutlinedIcon fontSize="small" />
@@ -495,8 +498,8 @@ function Main() {
                                             invisible={!store.needCheckUpdate}
                                             sx={{ paddingRight: '8px' }}
                                         >
-                                            <Typography sx={{ opacity: 0.5 }}>
-                                                {t('About')} ({store.version})
+                                            <Typography sx={{ opacity: 1.0 }}>
+                                                {t('About')}
                                             </Typography>
                                         </Badge>
                                     </ListItemText>
@@ -720,6 +723,12 @@ function Main() {
                     version={store.version}
                     lang={store.settings.language}
                     close={() => setOpenAboutDialog(false)}
+                />
+                <UsageDialog
+                    open={openUsageDialog}
+                    version={store.version}
+                    lang={store.settings.language}
+                    close={() => setUsageDialog(false)}
                 />
                 {configureChatConfig !== null && (
                     <ChatConfigDialog

@@ -58,15 +58,15 @@ export async function chat(
     let fullText = ''
     try {
         const messages = prompts.map((msg) => ({ role: msg.role, content: msg.content }))
-        const response = await fetch(`${host}/v1/chat/completions`, {
+        const remote_url = `${host}/openai/deployments/${modelName}/chat/completions?api-version=2023-03-15-preview`
+        const response = await fetch(remote_url, {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${apiKey}`,
+                'Api-Key': `${apiKey}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 messages,
-                model: modelName,
                 max_tokens: maxTokensNumber,
                 temperature,
                 stream: true,
@@ -79,7 +79,7 @@ export async function chat(
             }
             const data = JSON.parse(message)
             if (data.error) {
-                throw new Error(`Error from OpenAI: ${JSON.stringify(data)}`)
+                throw new Error(`Error from Azure: ${JSON.stringify(data)}`)
             }
             const text = data.choices[0]?.delta?.content
             if (text !== undefined) {
