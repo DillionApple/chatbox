@@ -34,7 +34,7 @@ import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCirc
 import LightbulbCircleIcon from '@mui/icons-material/LightbulbCircle'
 
 const { useEffect } = React
-const models: string[] = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-4', 'gpt-4-0314', 'gpt-4-32k', 'gpt-4-32k-0314']
+const models: string[] = ['gpt-35-turbo', 'gpt-35-turbo-16k', 'gpt-4', 'gpt-4-32k']
 const languages: string[] = ['en', 'zh-Hans', 'zh-Hant', 'jp']
 const languageMap: { [key: string]: string } = {
     en: 'English',
@@ -194,71 +194,11 @@ export default function SettingDialog(props: Props) {
                 </FormGroup>
                 <Accordion>
                     <AccordionSummary aria-controls="panel1a-content">
-                        <Typography>{t('proxy')}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <TextField
-                            margin="dense"
-                            label={t('api host')}
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            value={settingsEdit.apiHost}
-                            onChange={(e) => setSettingsEdit({ ...settingsEdit, apiHost: e.target.value.trim() })}
-                        />
-
-                        {!settingsEdit.apiHost.match(/^(https?:\/\/)?api.openai.com(:\d+)?$/) && (
-                            <Alert severity="warning">
-                                {t('proxy warning', { apiHost: settingsEdit.apiHost })}
-                                <Button
-                                    onClick={() =>
-                                        setSettingsEdit({ ...settingsEdit, apiHost: getDefaultSettings().apiHost })
-                                    }
-                                >
-                                    {t('reset')}
-                                </Button>
-                            </Alert>
-                        )}
-                        {settingsEdit.apiHost.startsWith('http://') && (
-                            <Alert severity="warning">
-                                {<Trans i18nKey="protocol warning" components={{ bold: <strong /> }} />}
-                            </Alert>
-                        )}
-                        {!settingsEdit.apiHost.startsWith('http') && (
-                            <Alert severity="error">
-                                {<Trans i18nKey="protocol error" components={{ bold: <strong /> }} />}
-                            </Alert>
-                        )}
-                    </AccordionDetails>
-                </Accordion>
-                <Accordion>
-                    <AccordionSummary aria-controls="panel1a-content">
                         <Typography>
                             {t('model')} & {t('token')}{' '}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Alert severity="warning">
-                            {t('settings modify warning')}
-                            {t('please make sure you know what you are doing.')}
-                            {t('click here to')}
-                            <Button
-                                onClick={() =>
-                                    setSettingsEdit({
-                                        ...settingsEdit,
-                                        model: getDefaultSettings().model,
-                                        maxContextSize: getDefaultSettings().maxContextSize,
-                                        maxTokens: getDefaultSettings().maxTokens,
-                                        showModelName: getDefaultSettings().showModelName,
-                                        temperature: getDefaultSettings().temperature,
-                                    })
-                                }
-                            >
-                                {t('reset')}
-                            </Button>
-                            {t('to default values.')}
-                        </Alert>
-
                         <FormControl fullWidth variant="outlined" margin="dense">
                             <InputLabel htmlFor="model-select">{t('model')}</InputLabel>
                             <Select

@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next'
 export function getDefaultSettings(): Settings {
     return {
         openaiKey: '',
-        apiHost: 'https://api.openai.com',
-        model: 'gpt-3.5-turbo',
+        apiHost: 'http://127.0.0.1:8000',
+        model: 'gpt-35-turbo',
         temperature: 0.7,
         maxContextSize: '4000',
         maxTokens: '2048',

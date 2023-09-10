@@ -1,7 +1,7 @@
 {
     "settings": "Settings",
     "theme": "Theme",
-    "openai api key": "OpenAI API Key",
+    "openai api key": "User Key",
     "show word count": "Show word count",
     "show estimated token count": "Show estimated token count",
     "proxy": "Proxy",
