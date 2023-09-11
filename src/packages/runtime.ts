@@ -15,16 +15,15 @@ setInterval(
 )
 
 export const writeStore = async (key: string, value: any) => {
-    await store.set(key, value)
-    if (key === 'settings') {
-        await store.save()
-    }
+    window.localStorage.setItem(key, JSON.stringify(value))
 }
 
 export const readStore = async (key: string): Promise<any | undefined> => {
-    await handleCompatibilityV0_1()
-    const value = await store.get(key)
-    return value || undefined
+    const value_str = window.localStorage.getItem(key)
+    if (value_str) {
+        return JSON.parse(value_str)
+    }
+    return undefined
 }
 
 async function handleCompatibilityV0_1() {

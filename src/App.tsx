@@ -498,7 +498,7 @@ function Main() {
                                             invisible={!store.needCheckUpdate}
                                             sx={{ paddingRight: '8px' }}
                                         >
-                                            <Typography sx={{ opacity: 0.5 }}>
+                                            <Typography sx={{ opacity: 1.0 }}>
                                                 {t('Usage')}
                                             </Typography>
                                         </Badge>
