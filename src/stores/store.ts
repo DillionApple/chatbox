@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Settings, createSession, Session, Message, Config } from './types'
+import { Settings, createSession, Session, Message, Config, UsageData } from './types'
 import * as defaults from '../packages/defaults'
 import { v4 as uuidv4 } from 'uuid'
 import { ThemeMode } from '../theme'
@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 export function getDefaultSettings(): Settings {
     return {
         openaiKey: '',
-        apiHost: 'https://api-openai-us1.deepseek.com:8443/',
+        apiHost: 'http://47.88.61.151:8000',
         model: 'gpt-35-turbo',
         temperature: 0.7,
         maxContextSize: '4000',
@@ -55,6 +55,32 @@ export async function readConfig(): Promise<Config> {
 
 export async function writeConfig(config: Config) {
     return runtime.writeStore('configs', config)
+}
+
+export async function getUsageData(apiHost: string, user_sk: string): Promise<UsageData> {
+    const remote_url = `${apiHost}/usage/?user_sk=${user_sk}`
+    const response = await fetch(remote_url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    const json_data = await response.json()
+    const date_list = []
+    const usage_list = []
+    for (let i = 0; i < json_data.usage_daily.length; ++i) {
+        date_list.push(json_data.usage_daily[i][0])
+        usage_list.push(json_data.usage_daily[i][1])
+    }
+    const ret: UsageData = {
+        date_list,
+        usage_list,
+        quota_monthly: json_data.quota_monthly,
+        usage: json_data.usage,
+        user_name: json_data.user_name,
+        user_sk: user_sk,
+    }
+    return ret
 }
 
 // session store
@@ -173,6 +199,8 @@ export default function useStore() {
         settings,
         setSettings,
         needSetting,
+
+        getUsageData,
 
         chatSessions,
         createChatSession,

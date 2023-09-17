@@ -84,3 +84,12 @@ export interface SponsorAboutBanner {
     title: string
     description: string
 }
+
+export interface UsageData {
+    date_list: string[]
+    usage_list: number[]
+    quota_monthly: number
+    usage: number
+    user_name: string
+    user_sk: string
+}

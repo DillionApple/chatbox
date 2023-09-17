@@ -110,6 +110,15 @@ function Main() {
 
     const [openUsageDialog, setUsageDialog] = React.useState(false)
 
+    const [usageData, setUsageData] = React.useState({
+        date_list: ['null'],
+        usage_list: [0.0],
+        quota_monthly: 0.0,
+        usage: 0.0,
+        user_name: "null",
+        user_sk: "null"
+    })
+
     // 是否展示菜单栏
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
@@ -485,7 +494,14 @@ function Main() {
                                     </Typography>
                                 </MenuItem>
 
-                                <MenuItem onClick={() => setUsageDialog(true)}>
+                                <MenuItem
+                                    onClick={async () => {
+                                        setUsageDialog(true)
+                                        const usageData = await store.getUsageData(store.settings.apiHost,
+                                            store.settings.openaiKey)
+                                        setUsageData(usageData)
+                                    }}
+                                >
                                     <ListItemIcon>
                                         <IconButton>
                                             <InfoOutlinedIcon fontSize="small" />
@@ -726,8 +742,7 @@ function Main() {
                 />
                 <UsageDialog
                     open={openUsageDialog}
-                    version={store.version}
-                    lang={store.settings.language}
+                    usageData={usageData}
                     close={() => setUsageDialog(false)}
                 />
                 {configureChatConfig !== null && (

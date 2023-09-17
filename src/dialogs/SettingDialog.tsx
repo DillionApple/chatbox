@@ -192,12 +192,6 @@ export default function SettingDialog(props: Props) {
                         onChange={(e, checked) => setSettingsEdit({ ...settingsEdit, showTokenCount: checked })}
                     />
                 </FormGroup>
-                <Accordion>
-                    <AccordionSummary aria-controls="panel1a-content">
-                        <Typography>
-                            {t('model')} & {t('token')}{' '}
-                        </Typography>
-                    </AccordionSummary>
                     <AccordionDetails>
                         <FormControl fullWidth variant="outlined" margin="dense">
                             <InputLabel htmlFor="model-select">{t('model')}</InputLabel>
@@ -332,7 +326,6 @@ export default function SettingDialog(props: Props) {
                             />
                         </FormGroup>
                     </AccordionDetails>
-                </Accordion>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onCancel}>{t('cancel')}</Button>
