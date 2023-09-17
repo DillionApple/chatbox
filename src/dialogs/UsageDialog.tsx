@@ -10,6 +10,7 @@ import {
     DialogActions,
     DialogTitle,
     Stack,
+    Grid,
 } from '@mui/material'
 import iconPNG from '../assets/icon.png'
 import { Trans, useTranslation } from 'react-i18next'
@@ -65,25 +66,39 @@ export default function UsageDialog(props: Props) {
           {
             label: 'Dollars',
             data: usageData.usage_list,
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            backgroundColor: '#4caf50',
           },
         ],
     };
+    const usagePercent = Math.max(1, usageData.usage / usageData.quota_monthly * 100)
     return (
         <Dialog open={props.open} onClose={props.close} fullWidth>
             <DialogTitle>{t('Usage')}</DialogTitle>
             <DialogContent>
                 <Box sx={{ textAlign: 'center', padding: '0 20px' }}>
                     <h3>Usage in last 30 days ($)</h3>
+                    <p>{usageData.user_name} {usageData.user_sk.slice(0, 3)}*********{usageData.user_sk.slice(-3)}</p>           
                     <Bar
                         data={data}
                         options={options}
                     />
-                    <p>User Name {usageData.user_name}</p>
-                    <p>User SK {usageData.user_sk}</p>
-                    <p>Quota Monthly {usageData.quota_monthly}</p>
-                    <p>Total Usage {usageData.usage}</p>
                 </Box>
+                <Box sx={{ textAlign: 'center', padding: '0 0px'}}>
+                    <Grid container spacing={0}>
+                        <Grid item xs={2}>
+                            <div><p><b>Usage($): </b></p></div>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <div style={{width: '100%', backgroundColor: '#bbb', borderRadius: '5px'}}>
+                                <div style={{width: `${usagePercent}%`, backgroundColor: '#4caf50', borderRadius: '5px'}}>
+                                <p style={{color: '#000'}}>
+                                <b>{usageData.usage.toFixed(2)}/{usageData.quota_monthly}</b>
+                                </p>
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </Box>    
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.close}>{t('close')}</Button>

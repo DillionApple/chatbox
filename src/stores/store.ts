@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 export function getDefaultSettings(): Settings {
     return {
         openaiKey: '',
-        apiHost: 'http://47.88.61.151:8000',
+        apiHost: 'https://api-openai-us1.deepseek.com:8443',
         model: 'gpt-35-turbo',
         temperature: 0.7,
         maxContextSize: '4000',
@@ -65,14 +65,31 @@ export async function getUsageData(apiHost: string, user_sk: string): Promise<Us
             'Content-Type': 'application/json',
         },
     })
-    const json_data = await response.json()
-    const date_list = []
-    const usage_list = []
+    const date_list: string[] = []
+    const usage_list: number[] = []
+    let ret: UsageData
+
+    let json_data
+    try {
+        json_data = await response.json()
+    } catch (error) {
+        console.error("Error while getting usage data: ", error)
+        ret = {
+            date_list,
+            usage_list,
+            quota_monthly: 0,
+            usage: 0,
+            user_name: "null",
+            user_sk: "null"
+        }
+        return ret
+    }
+
     for (let i = 0; i < json_data.usage_daily.length; ++i) {
         date_list.push(json_data.usage_daily[i][0])
         usage_list.push(json_data.usage_daily[i][1])
     }
-    const ret: UsageData = {
+    ret = {
         date_list,
         usage_list,
         quota_monthly: json_data.quota_monthly,
