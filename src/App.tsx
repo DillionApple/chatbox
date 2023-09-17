@@ -515,7 +515,7 @@ function Main() {
                                             sx={{ paddingRight: '8px' }}
                                         >
                                             <Typography sx={{ opacity: 1.0 }}>
-                                                {t('About')}
+                                                {t('Usage')}
                                             </Typography>
                                         </Badge>
                                     </ListItemText>
