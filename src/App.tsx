@@ -113,7 +113,11 @@ function Main() {
     const [usageData, setUsageData] = React.useState({
         date_list: ['null'],
         usage_list: [0.0],
-        quota_monthly: 0.0,
+        quota: {
+            type: 'null',
+            value: 0,
+            expire_date: '19700101'
+        },
         usage: 0.0,
         user_name: "null",
         user_sk: "null"

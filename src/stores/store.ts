@@ -77,7 +77,11 @@ export async function getUsageData(apiHost: string, user_sk: string): Promise<Us
         ret = {
             date_list,
             usage_list,
-            quota_monthly: 0,
+            quota: {
+                type: "null",
+                value: 0,
+                expire_date: '19700101',
+            },
             usage: 0,
             user_name: "null",
             user_sk: "null"
@@ -92,7 +96,7 @@ export async function getUsageData(apiHost: string, user_sk: string): Promise<Us
     ret = {
         date_list,
         usage_list,
-        quota_monthly: json_data.quota_monthly,
+        quota: json_data.quota,
         usage: json_data.usage,
         user_name: json_data.user_name,
         user_sk: user_sk,

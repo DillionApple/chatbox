@@ -52,7 +52,7 @@ export default function UsageDialog(props: Props) {
         plugins: {
           title: {
             display: false,
-            text: 'Usage in last 30 days ($)',
+            text: 'Usage ($)',
           },
           legend: {
             display: false,
@@ -70,14 +70,16 @@ export default function UsageDialog(props: Props) {
           },
         ],
     };
-    const usagePercent = Math.max(1, usageData.usage / usageData.quota_monthly * 100)
+    const usagePercent = Math.max(1, usageData.usage / usageData.quota.value * 100)
     return (
         <Dialog open={props.open} onClose={props.close} fullWidth>
             <DialogTitle>{t('Usage')}</DialogTitle>
             <DialogContent>
                 <Box sx={{ textAlign: 'center', padding: '0 20px' }}>
-                    <h3>Usage in last 30 days ($)</h3>
-                    <p>{usageData.user_name} {usageData.user_sk.slice(0, 3)}*********{usageData.user_sk.slice(-3)}</p>           
+                    <h3>Usage($)</h3>
+                    <p>{usageData.user_name} {usageData.user_sk.slice(0, 3)}*********{usageData.user_sk.slice(-3)}</p>
+                    <p>Quota Type: {usageData.quota.type}</p>
+                    <p>Expire Date: {usageData.quota.expire_date}</p>
                     <Bar
                         data={data}
                         options={options}
@@ -92,7 +94,7 @@ export default function UsageDialog(props: Props) {
                             <div style={{width: '100%', backgroundColor: '#bbb', borderRadius: '5px'}}>
                                 <div style={{width: `${usagePercent}%`, backgroundColor: '#4caf50', borderRadius: '5px'}}>
                                 <p style={{color: '#000'}}>
-                                <b>{usageData.usage.toFixed(2)}/{usageData.quota_monthly}</b>
+                                <b>{usageData.usage.toFixed(2)}/{usageData.quota.value}</b>
                                 </p>
                                 </div>
                             </div>

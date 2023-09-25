@@ -85,10 +85,16 @@ export interface SponsorAboutBanner {
     description: string
 }
 
+export interface UsageQuota {
+    type: string
+    value: number
+    expire_date: string
+}
+
 export interface UsageData {
     date_list: string[]
     usage_list: number[]
-    quota_monthly: number
+    quota: UsageQuota
     usage: number
     user_name: string
     user_sk: string
